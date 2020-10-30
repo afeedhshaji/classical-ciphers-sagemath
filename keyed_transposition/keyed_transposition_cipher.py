@@ -3,10 +3,14 @@
 import os
 import re
 from itertools import permutations
+from classical_ciphers.utils.ngram_score import ngram_score
+
 
 BOGUS_CHARACTER = "Z"
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CWD_PATH = os.getcwd()
+
+fitness = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
 
 
 class KeyedTransposition:
@@ -85,10 +89,10 @@ class KeyedTransposition:
                 except IndexError:
                     continue
 
-        bogus_count = result.count(BOGUS_CHARACTER)
+        # bogus_count = result.count(BOGUS_CHARACTER)
 
-        if bogus_count > 0:
-            return result[:-bogus_count]
+        # if bogus_count > 0:
+        #     return result[:-bogus_count]
 
         return result
 
@@ -97,20 +101,84 @@ class Cryptanalysis:
     @staticmethod
     def chosen_ciphertext(cipher_text, decryption_key):
         """We have access to decryption algorithm in this technique"""
-        pass
+        plain_text = "-1"
+        chosen_cipher = "A"
+        KLEN = len(KeyedTransposition.decrypt(chosen_cipher, decryption_key))
+        match_str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:KLEN]
+        for perm in list(permutations("ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:KLEN])):
+            chosen_cipher = "".join(perm)
+
+            decrypted_msg = KeyedTransposition.decrypt(
+                chosen_cipher, decryption_key
+            )
+            if match_str == decrypted_msg:
+                break
+
+        key = []
+        for i in range(0, KLEN):
+            key.append(ord(chosen_cipher[i]) - ord("A") + 1)
+
+        plain_text = KeyedTransposition.decrypt(cipher_text, key)
+
+        return plain_text
 
     @staticmethod
     def chosen_plaintext(cipher_text, encryption_key):
         """We have access to encryption algorithm in this technique"""
-        pass
+        plain_text = "-1"
+        KLEN = len(KeyedTransposition.encrypt("A", encryption_key))
+
+        chosen_plain = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:KLEN]
+        encr_msg = KeyedTransposition.encrypt(chosen_plain, encryption_key)
+        key = []
+        for i in range(0, KLEN):
+            key.append(ord(encr_msg[i]) - ord("A") + 1)
+
+        # print(key)
+        plain_text = KeyedTransposition.decrypt(cipher_text, key)
+        return plain_text
 
     @staticmethod
     def known_plaintext(prev_plain_text, prev_cipher_text, cipher_text):
-        pass
+        plain_text = "-1"
+        for i in range(3, 11):  # KLEN 3 to 11
+            print("KLEN" + str(i - 1))
+            for permute in list(permutations(range(1, i))):
+
+                """ TODO : Might have to handle error here. """
+                decrypted_msg = KeyedTransposition.decrypt(
+                    prev_cipher_text, permute
+                )
+                if decrypted_msg == prev_plain_text:
+                    key = permute
+                    break
+
+        plain_text = KeyedTransposition.decrypt(cipher_text, key)
+        return plain_text
 
     @staticmethod
     def ciphertext_only(ciphertext):
-        pass
+        plain_text = -1
+        scores = []
+        for i in range(3, 11):  # KLEN 3 to 11
+            print("KLEN " + str(i - 1))
+            for permute in list(permutations(range(1, i))):
+                list_perm = list(permute)
+
+                """ TODO : Might have to handle error here. """
+                scores.append(
+                    (
+                        fitness.score(
+                            KeyedTransposition.decrypt(cipher_text, list_perm)
+                        ),
+                        permute,
+                    )
+                )
+
+        key = list(max(scores)[1])
+
+        plain_text = KeyedTransposition.decrypt(cipher_text, key)
+        return plain_text
 
 
 if __name__ == "__main__":
