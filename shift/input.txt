@@ -1,0 +1,11 @@
+1,3,hello
+2,21,check
+1,3,This messAge is easy to encrypt but hard to find the key
+1,25,ABC
+1,-1,ABC
+6,TFUHTLPZQVOU
+6,KHOOR
+3,3,KHOOR
+4,3,KHOOR
+5,NICE,QLFH,KHOOR
+6,3,KHOOR
