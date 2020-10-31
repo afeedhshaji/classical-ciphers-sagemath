@@ -158,7 +158,7 @@ class Cryptanalysis:
     def chosen_ciphertext(cipher_text, decryption_key):
         """We have access to decryption algorithm in this technique"""
         plain_text = "-1"
-        for dim in range(2, 11):  # KLEN 2*2 to 11*11
+        for dim in range(2, 11):  # key_dim : 2*2 to 11*11
             """
             Chosen Cipher is an identity matrix to get K_inv directly.
 
@@ -209,21 +209,64 @@ class Cryptanalysis:
                 TODO : Cipher text may not be divisble by the key dim. So
                 splice the cipher text till the largest mutliple of dim.
                 """
-                exp_plain_text = HillCipher.decrypt(cipher_text, key_matrix)
+                chosen_cipher = cipher_text[: i ** 2]
+
+                exp_plain_text = HillCipher.decrypt(chosen_cipher, key_matrix)
                 orig_plain_text = HillCipher.decrypt(
-                    cipher_text, decryption_key
+                    chosen_cipher, decryption_key
                 )
                 if exp_plain_text == orig_plain_text:
-                    plain_text = exp_plain_text
                     break
 
+        plain_text = HillCipher.decrypt(cipher_text, key_matrix)
         return plain_text
 
     @staticmethod
     def chosen_plaintext(cipher_text, encryption_key):
         """We have access to encryption algorithm in this technique"""
+        plain_text = "-1"
+        for dim in range(2, 11):  # key_dim : 2*2 to 11*11
+            """
+            Chosen Cipher is an identity matrix to get K_inv directly.
 
-        pass
+            Building the identity matrix :
+            [["B" "A"]          [1 0]
+            ["A" "B"]]          [0 1]
+            """
+
+            """ Filling with 0 """
+            chosen_plain_mat = ["A"] * (dim ** 2)
+
+            """ FIlling diagnol elems with 1 """
+            for j in range(dim):
+                chosen_plain_mat[dim * j + j] = "B"
+
+            """
+            To find out the the key matrix : I.K = K
+            """
+            chosen_plain = "".join(chosen_plain_mat)
+            key = HillCipher.encrypt(chosen_plain, encryption_key)
+
+            key_matrix = HillCipher.getKeyMatrix(key)
+
+            """ 
+            TODO : Cipher text may not be divisble by the key dim. So
+            splice the cipher text till the largest mutliple of dim.
+            """
+            chosen_plain = (
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            )
+            encr_chosen_plain = HillCipher.encrypt(
+                chosen_plain, encryption_key
+            )
+            decr_chosen_plain = HillCipher.decrypt(
+                encr_chosen_plain, key_matrix
+            )
+            if decr_chosen_plain == chosen_plain:
+                break
+
+        plain_text = HillCipher.decrypt(cipher_text, key_matrix)
+        return plain_text
 
     @staticmethod
     def known_plaintext(prev_plain_text, prev_cipher_text, cipher_text):
