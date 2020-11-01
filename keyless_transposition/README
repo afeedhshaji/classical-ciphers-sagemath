@@ -36,14 +36,21 @@
     
     1,4,MEETMEATTHEPARK
     2,4,MMTAEEHREAEKTTP
+    3,4,MMTAEEHREAEKTTP
+    4,4,MMTAEEHREAEKTTP
+    5,MEETMEATTHEPARK,MMTAEEHREAEKTTP,MMTAEEHREAEKTTP
+    6,MMTAEEHREAEKTTP
 
     ========================
             Output 
     ======================== 
 
-    MMTAEEHREAEKTTP
-    MEETMEATTHEPARK
-
+    MMTAEEHREAEKTTPZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
 
 * For more details on the working of the algorithm, it has 
   been included as doc strings in the python program.
