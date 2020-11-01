@@ -1,5 +1,7 @@
 """
 Allows scoring of text using n-gram probabilities
+
+Reference : http://practicalcryptography.com/cryptanalysis/text-characterisation/quadgrams/
 """
 from math import log10
 

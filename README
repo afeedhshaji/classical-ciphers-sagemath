@@ -43,10 +43,13 @@ classical cyphers algorithm from 1 - 6.
 *  How to build and run the program
 *******************************************************
 
-1. Each cipher is written as a module inside a package with the
+1. Install the dependancies:
+        pip install -r requirements.txt
+
+2. Each cipher is written as a module inside a package with the
    name of the package resembling the cipher technique.
 
-2. Run the Python module runner command outside the
+3. Run the Python module runner command outside the
    `classical_ciphers` folder:
    
         python3 -m classical_ciphers.<cipher_package_name>.<cipher_module_name>

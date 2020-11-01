@@ -85,6 +85,7 @@ class HillCipher:
         plain_text_array.resize(int(plain_text_array_len / key_rows), key_rows)
         plain_text_matrix = plain_text_array
 
+        """ C = P * K"""
         result = np.matmul(plain_text_matrix, key)
         result = np.remainder(result, 26)
 
@@ -141,6 +142,7 @@ class HillCipher:
         inverse_key = np.array(inverse_key)
         inverse_key = inverse_key.astype(float)
 
+        """ P = C_inv * K"""
         decryption = np.matmul(cipher_text_matrix, inverse_key)
         decryption = np.remainder(decryption, 26).flatten()
 
@@ -271,7 +273,30 @@ class Cryptanalysis:
     @staticmethod
     def known_plaintext(prev_plain_text, prev_cipher_text, cipher_text):
 
-        pass
+        """ Bruteforcing. Same as ciphertext. There will be better methods."""
+
+        plain_text = "-1"
+
+        for i in range(26):  # Loop 1
+            for j in range(26):  # Loop 2
+                for k in range(26):  # Loop 3
+                    for l in range(26):  # Loop 4
+                        key = np.matrix([[i, j], [k, l]])
+                        if np.linalg.det(key) != 0:
+                            # print("Trying..i, j, k ,l", i, j, k, l)
+                            decrypted = HillCipher.decrypt(
+                                prev_cipher_text, key
+                            )
+                            if (
+                                decrypted != "-1"
+                                and decrypted == prev_plain_text
+                            ):
+                                plain_text = HillCipher.decrypt(
+                                    cipher_text, key
+                                )
+                                print(plain_text)
+                                return plain_text
+        return plain_text
 
     @staticmethod
     def ciphertext_only(ciphertext):

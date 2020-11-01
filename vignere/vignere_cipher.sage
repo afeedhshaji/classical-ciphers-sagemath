@@ -1,7 +1,7 @@
 #!/usr/bin/env sage
 
 from classical_ciphers.utils.ngram_score import ngram_score
-from classical_ciphers.utils.helper import repeat
+from classical_ciphers.utils.helper import repeat, regex_repeat
 import re
 import os
 from itertools import permutations
@@ -86,34 +86,38 @@ class Cryptanalysis:
     def chosen_ciphertext(cipher_text, decryption_key):
         """We have access to decryption algorithm in this technique"""
         fullkey = ""
-        cipher_text = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        plain_text = VignereCipher.decrypt(cipher_text, encryption_key)
-        for i in range(len(cipher_text)):
+        chosen_cipher = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        decr_chosen_cipher = VignereCipher.decrypt(
+            chosen_cipher, decryption_key
+        )
+        for i in range(len(chosen_cipher)):
             fullkey += chr(
-                (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
+                (ord(chosen_cipher[i]) - ord(decr_chosen_cipher[i])) % 26 + 65
             )
+        print(fullkey)
         key = repeat(fullkey)
-        return key
+        return VignereCipher.decrypt(cipher_text, key)
 
     @staticmethod
     def chosen_plaintext(cipher_text, encryption_key):
         """We have access to encryption algorithm in this technique"""
         fullkey = ""
-        plain_text = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        cipher_text = VignereCipher.encrypt(plain_text, encryption_key)
-        for i in range(len(plain_text)):
+        chosen_plain = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        encr_chosen_plain = VignereCipher.encrypt(chosen_plain, encryption_key)
+        for i in range(len(chosen_plain)):
             fullkey += chr(
-                (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
+                (ord(encr_chosen_plain[i]) - ord(chosen_plain[i])) % 26 + 65
             )
+        print(fullkey)
         key = repeat(fullkey)
-        return key
+        return VignereCipher.decrypt(cipher_text, key)
 
     @staticmethod
     def known_plaintext(prev_plain_text, prev_cipher_text, cipher_text):
         fullkey = ""
-        for i in range(len(plain_text)):
+        for i in range(len(prev_plain_text)):
             fullkey += chr(
-                (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
+                (ord(prev_cipher_text[i]) - ord(prev_plain_text[i])) % 26 + 65
             )
 
         key = repeat(fullkey)

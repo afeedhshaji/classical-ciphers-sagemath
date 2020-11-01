@@ -1,8 +1,13 @@
 #!/usr/bin/env sage
 
 import math
+import re
+import os
 
 BOGUS_CHARACTER = "Z"
+
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+CWD_PATH = os.getcwd()
 
 
 class KeylessTransposition:
@@ -18,7 +23,8 @@ class KeylessTransposition:
         Cipher Text : MMTAEEHREAEKTTP
     """
 
-    def encrypt(self, plain_text, num_cols):
+    @staticmethod
+    def encrypt(plain_text, num_cols):
         """Returns the cipher text encrypted using Keyless Transposition Cipher Algoirthm
 
         Args:
@@ -50,7 +56,8 @@ class KeylessTransposition:
                 count += 1
         return result
 
-    def decrypt(self, cipher_text, num_cols):
+    @staticmethod
+    def decrypt(cipher_text, num_cols):
         """Returns the decrypted plain text of the given cipher text.
 
         Args:
@@ -109,22 +116,22 @@ if __name__ == "__main__":
     file will be `output.txt`. Incase of invalid input, the output of that
     particular testcase will be -1.
     """
-    keyless_transp = KeylessTransposition()
 
-    input_file = open("input.txt", "r")
-    output_file = open("output.txt", "w")
+    input_file = open(DIR_PATH + "/input.txt", "r")
+    output_file = open(DIR_PATH + "/output.txt", "w")
 
     for line in input_file:
-        (option, cols, msg) = [x.strip() for x in line.split(",")]
-        option = int(option)
-        num_cols = int(cols)
+        opts = [x.strip() for x in line.split(",")]
+        option = int(opts[0])
 
         if option == 1:  # encryption
-            plain_text = msg
-            cipher_text = keyless_transp.encrypt(plain_text, num_cols)
+            num_cols = int(opts[1])
+            plain_text = re.sub("[^A-Z]", "", opts[2].upper())
+            cipher_text = KeylessTransposition.encrypt(plain_text, num_cols)
             output_file.write(cipher_text + "\n")
 
         elif option == 2:  # decryption
-            cipher_text = msg
-            plain_text = keyless_transp.decrypt(cipher_text, num_cols)
+            num_cols = int(opts[1])
+            cipher_text = re.sub("[^A-Z]", "", opts[2].upper())
+            plain_text = KeylessTransposition.decrypt(cipher_text, num_cols)
             output_file.write(plain_text + "\n")

@@ -33,8 +33,9 @@ class ShiftCipher:
 
         Args:
             cipher (str): Cipher text or the encrypted text to be decrypted.
-            It should contain only UPPERCASE alphabets.
-            Non-alphabetical characters will not be decrypted.
+            It should contain only UPPERCASE alphabets. Non-alphabetical
+            characters will be ignored.
+
             key (int): Key used for decrypting the shift cipher.
 
         Returns:
@@ -56,8 +57,8 @@ class ShiftCipher:
 
         Args:
             plain_text (str): Message to be encrypted. It should contain only
-            UPPERCASE alphabets.
-            Non-alphabetical characters will not be encrypted.
+            UPPERCASE alphabets. Non-alphabetical characters will be ignored.
+
             key (int): Key to encrypt the plaintext.
 
         Returns:

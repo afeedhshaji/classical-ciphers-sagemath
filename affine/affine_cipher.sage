@@ -240,7 +240,7 @@ if __name__ == "__main__":
                 decryption_key2,
             )
 
-            # output_file.write(plain_text + "\n")
+            output_file.write(plain_text + "\n")
 
         elif option == 4:  # chosen plaintext
             encryption_key1 = int(opts[1])

@@ -142,8 +142,9 @@ class Cryptanalysis:
     @staticmethod
     def known_plaintext(prev_plain_text, prev_cipher_text, cipher_text):
         plain_text = "-1"
+        print("Attacking using known plain text method...")
         for i in range(3, 11):  # KLEN 3 to 11
-            print("KLEN" + str(i - 1))
+            print("KLEN " + str(i - 1))
             for permute in list(permutations(range(1, i))):
 
                 """ TODO : Might have to handle error here. """
@@ -168,6 +169,7 @@ class Cryptanalysis:
         """
         plain_text = -1
         scores = []
+        print("Attacking using known cipher text only method...")
         for i in range(3, 11):  # KLEN 3 to 11
             print("KLEN " + str(i - 1))
             for permute in list(permutations(range(1, i))):
