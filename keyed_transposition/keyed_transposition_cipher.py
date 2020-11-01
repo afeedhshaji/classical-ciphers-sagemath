@@ -10,6 +10,7 @@ BOGUS_CHARACTER = "Z"
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CWD_PATH = os.getcwd()
 
+
 fitness = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
 
 
@@ -158,18 +159,24 @@ class Cryptanalysis:
 
     @staticmethod
     def ciphertext_only(ciphertext):
+        """
+        Cryptanalysis using Frequency Analysis technique.
+
+        Reference :
+        Ngram score - http://practicalcryptography.com/cryptanalysis/text-characterisation/quadgrams/
+        Transposition Cryptanalysis - http://practicalcryptography.com/ciphers/columnar-transposition-cipher/
+        """
         plain_text = -1
         scores = []
         for i in range(3, 11):  # KLEN 3 to 11
             print("KLEN " + str(i - 1))
             for permute in list(permutations(range(1, i))):
-                list_perm = list(permute)
 
                 """ TODO : Might have to handle error here. """
                 scores.append(
                     (
                         fitness.score(
-                            KeyedTransposition.decrypt(cipher_text, list_perm)
+                            KeyedTransposition.decrypt(cipher_text, permute)
                         ),
                         permute,
                     )
@@ -185,21 +192,28 @@ if __name__ == "__main__":
     """
     Driver function
 
-
     Program Input/Output Specifications :
 
     * The INPUT file must be named `input.txt` and each line would be the test
     cases in the format :
-                                        A,B,C
-        - A is the integer denoting Encryption or Decryption. 1 is for
-         Encryption. 2 is for Decryption.
-        - B denotes the key used to encrypt/decrypt.
-        - C denotes the message to encrypt or decrypt.
+                                        A,B,C,D...
+
+    * If A is 1 (Encryption), B = key and C = Plaintext
+
+    * If A is 2 (Decryption), B = key and C = Ciphertext
+
+    * If A is 3 (Chosen Ciphertext attack), B = key, C = Ciphertext
+
+    * If A is 4 (Chosen plaintext attack), B = key, C = Ciphertext
+
+    * If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    * If A is 6 (Ciphertext only attack), B = Ciphertext
 
     * The OUTPUT file will contain the results of all the test cases seperated
-    by newlines in the order
-    given in the input file. The name of the output file will be `output.txt`.
-    Incase of invalid input, the output of that particular testcase will be -1.
+    by newlines in the order given in the input file. The name of the output
+    file will be `output.txt`. Incase of invalid input, the output of that
+    particular testcase will be -1.
     """
 
     input_file = open(DIR_PATH + "/input.txt", "r")

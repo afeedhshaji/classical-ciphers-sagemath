@@ -92,7 +92,7 @@ class Cryptanalysis:
             fullkey += chr(
                 (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
             )
-        key = re.findall(r"(.+)\1", fullkey)[0]
+        key = repeat(fullkey)
         return key
 
     @staticmethod
@@ -105,7 +105,7 @@ class Cryptanalysis:
             fullkey += chr(
                 (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
             )
-        key = re.findall(r"(.+)\1", fullkey)[0]
+        key = repeat(fullkey)
         return key
 
     @staticmethod
@@ -116,42 +116,43 @@ class Cryptanalysis:
                 (ord(cipher_text[i]) - ord(plain_text[i])) % 26 + 65
             )
 
-        key = re.findall(r"(.+)\1", fullkey)[0]
+        key = repeat(fullkey)
 
         return VignereCipher.decrypt(cipher_text, key)
 
     @staticmethod
     def ciphertext_only(ciphertext):
+        """
+        Cryptanalysis using Hill Climbing technique.
 
-        N = 100  # Top 100 is passed on in each generation
-        possible_keys_of_each_len = []
+        Reference :
+        http://practicalcryptography.com/cryptanalysis/stochastic-searching/cryptanalysis-vigenere-cipher/
+
+        Since normal brute force is slow, we try to speed up the brute force
+        using Heuristic Search Algorithm such as Hill Climbing.
+
+        """
+        keys = []
         for KLEN in range(3, 20):  # MAX Key Length : 20
-            # Starting score calculated from trigrams
-            print("Trying keys of length " + str(KLEN))
-            fit_scores = []
+            print("KLEN " + str(KLEN))
+            scores = []
 
             for i in permutations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 3):
                 key = "".join(i) + "A" * (KLEN - len(i))
 
                 decrypted_seq = VignereCipher.decrypt(cipher_text, key)
                 score = 0
-                # Total score is sum of score of each block encrypted using
-                # key
+
                 for j in range(0, len(cipher_text), KLEN):
                     score += trigram.score(decrypted_seq[j : j + 3])
-                fit_scores.append((score, "".join(i)))
+                scores.append((score, "".join(i)))
 
-            fit_scores = sorted(fit_scores, reverse=True)[:N]
+            scores = sorted(scores, reverse=True)[:100]
 
-            new_fit_scores = []
+            new_scores = []
 
-            """
-            Iteratively add each character to each of 100 possible keys and
-            test fitness
-            Select top 100 from result and repeat
-            """
             for i in range(0, KLEN - 3):
-                for score, partial_key in fit_scores:
+                for score, partial_key in scores:
                     for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                         fullkey = (
                             partial_key
@@ -162,37 +163,30 @@ class Cryptanalysis:
                             cipher_text, fullkey
                         )
                         score = 0
-                        """
-                        Total score is taken as sum of score of each block
-                        encrypted using key
-                        We use only substring of len(key) to score because
-                        the remaining is padding in our current key
-                        """
+
                         for j in range(0, len(cipher_text), KLEN):
                             score += qgram.score(
                                 decrypted_seq[j : j + len(partial_key) + 1]
                             )
-                        new_fit_scores.append((score, partial_key + c))
+                        new_scores.append((score, partial_key + c))
 
-                fit_scores = sorted(new_fit_scores, reverse=True)[:N]
-                new_fit_scores = []
+                scores = sorted(new_scores, reverse=True)[:100]
+                new_scores = []
 
-            bestkey = fit_scores[0][1]
+            bestkey = scores[0][1]
             bestscore = qgram.score(
                 VignereCipher.decrypt(cipher_text, bestkey)
             )
 
-            # Calculate score using top 100 found keys on entire cipher text
+            for i, j in scores:
+                decrypted_seq = VignereCipher.decrypt(cipher_text, j)
+                score = qgram.score(decrypted_seq)
+                if score > bestscore:
+                    bestkey = j
+                    bestscore = score
+            keys.append((bestscore, bestkey))
 
-            for score, tempkey in fit_scores:
-                decrypted_seq = VignereCipher.decrypt(cipher_text, tempkey)
-                final_score = qgram.score(decrypted_seq)
-                if final_score > bestscore:
-                    bestkey = tempkey
-                    bestscore = final_score
-            possible_keys_of_each_len.append((bestscore, bestkey))
-
-        max_key = max(possible_keys_of_each_len)[1]
+        max_key = max(keys)[1]
         return VignereCipher.decrypt(cipher_text, max_key)
 
 
@@ -204,11 +198,19 @@ if __name__ == "__main__":
 
     * The INPUT file must be named `input.txt` and each line would be the test
     cases in the format :
-                                        A,B,C
-        - A is the integer denoting Encryption or Decryption. 1 is for
-         Encryption. 2 is for Decryption.
-        - B denotes the key used to encrypt/decrypt.
-        - C denotes the message to encrypt or decrypt.
+                                        A,B,C,D...
+
+    * If A is 1 (Encryption), B = key and C = Plaintext
+
+    * If A is 2 (Decryption), B = key and C = Ciphertext
+
+    * If A is 3 (Chosen Ciphertext attack), B = key, C = Ciphertext
+
+    * If A is 4 (Chosen plaintext attack), B = key, C = Ciphertext
+
+    * If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    * If A is 6 (Ciphertext only attack), B = Ciphertext
 
     * The OUTPUT file will contain the results of all the test cases seperated
     by newlines in the order given in the input file. The name of the output

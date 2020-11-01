@@ -167,13 +167,23 @@ class Cryptanalysis:
 
     @staticmethod
     def ciphertext_only(ciphertext):
+        """
+        Cryptanalysis using Hill Climbing technique.
+
+        Reference :
+        http://practicalcryptography.com/cryptanalysis/stochastic-searching/cryptanalysis-vigenere-cipher/
+
+        Since normal brute force is slow, we try to speed up the brute force
+        using Heuristic Search Algorithm such as Hill Climbing.
+
+        """
         maxkey = MAXKEY
         maxscore = -99e9
         plain_text = "-1"
 
         parentscore, parentkey = maxscore, maxkey[:]
         i = 0
-        while i < 100:
+        while i < 100:  # Considering only 100 Iterations
             i = i + 1
             random.shuffle(parentkey)
             deciphered = SubstitutionCipher.decrypt(cipher_text, parentkey)
@@ -210,24 +220,29 @@ if __name__ == "__main__":
     """
     Driver function
 
-
     Program Input/Output Specifications :
 
     * The INPUT file must be named `input.txt` and each line would be the test
     cases in the format :
-                                        A,B,C,D
-        - A is the integer denoting Encryption or Decryption. 1 is for
-        Encryption. 2 is for Decryption.
-        - B denotes the plain alphabets used to encrypt/decrypt.
-        - C denotes the cipher alphabets used to encrypt/decrypt.
-        - D denotes the message to encrypt or decrypt.
+                                        A,B,C,D...
+
+    * If A is 1 (Encryption), B = key and C = Plaintext
+
+    * If A is 2 (Decryption), B = key and C = Ciphertext
+
+    * If A is 3 (Chosen Ciphertext attack), B = key, C = Ciphertext
+
+    * If A is 4 (Chosen plaintext attack), B = key, C = Ciphertext
+
+    * If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    * If A is 6 (Ciphertext only attack), B = Ciphertext
 
     * The OUTPUT file will contain the results of all the test cases seperated
-    by newlines in the order
-    given in the input file. The name of the output file will be `output.txt`.
-    Incase of invalid input, the output of that particular testcase will be -1.
+    by newlines in the order given in the input file. The name of the output
+    file will be `output.txt`. Incase of invalid input, the output of that
+    particular testcase will be -1.
     """
-
     input_file = open(DIR_PATH + "/input.txt", "r")
     output_file = open(DIR_PATH + "/output.txt", "w")
 

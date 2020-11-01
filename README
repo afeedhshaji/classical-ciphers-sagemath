@@ -1,0 +1,55 @@
+*******************************************************
+*  Name      :  Afeedh Shaji     
+*  Reg. No.  :  B170282CS            
+*  Course    :  CS4021D (NTC)      
+*  Assgn#    :  1               
+*******************************************************
+
+
+                    Read Me
+
+
+*******************************************************
+*  Problem description
+*******************************************************
+
+Implement the following algorithms using SageMath tool
+
+   - Affine cipher
+   - Hill cipher
+   - Shift cipher
+   - Substitution cipher
+   - Transposition cipher
+   - Vigenere cipher
+
+This should be followed by cryptanalysis of all the above
+classical cyphers algorithm from 1 - 6.
+
+*******************************************************
+*  Circumstances of programs
+*******************************************************
+
+    This program works and runs as intended.
+
+    Implemented the cipher techniques followed by the breaking
+    of the ciphers or cryptanalysis.
+
+    The program was tested on :
+    Python 3.8.5
+    SageMath version 9.0
+
+
+*******************************************************
+*  How to build and run the program
+*******************************************************
+
+1. Each cipher is written as a module inside a package with the
+   name of the package resembling the cipher technique.
+
+2. Run the Python module runner command outside the
+   `classical_ciphers` folder:
+   
+        python3 -m classical_ciphers.<cipher_package_name>.<cipher_module_name>
+
+        E.g. python3 -m classical_ciphers.shift.shift_cipher
+

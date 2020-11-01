@@ -280,11 +280,11 @@ class Cryptanalysis:
         maxkey = None
         plain_text = "-1"
 
-        for a in range(26):  # Loop 1
-            for b in range(26):  # Loop 2
-                for c in range(26):  # Loop 3
-                    for d in range(26):  # Loop 4
-                        key = np.matrix([[a, b], [c, d]])
+        for i in range(26):  # Loop 1
+            for j in range(26):  # Loop 2
+                for k in range(26):  # Loop 3
+                    for l in range(26):  # Loop 4
+                        key = np.matrix([[i, j], [k, l]])
                         if np.linalg.det(key) != 0:
                             decrypted = HillCipher.decrypt(cipher_text, key)
                             if decrypted != "-1":
@@ -302,7 +302,32 @@ class Cryptanalysis:
 
 
 if __name__ == "__main__":
+    """
+    Driver function
 
+    Program Input/Output Specifications :
+
+    * The INPUT file must be named `input.txt` and each line would be the test
+    cases in the format :
+                                        A,B,C,D...
+
+    * If A is 1 (Encryption), B = key and C = Plaintext
+
+    * If A is 2 (Decryption), B = key and C = Ciphertext
+
+    * If A is 3 (Chosen Ciphertext attack), B = key, C = Ciphertext
+
+    * If A is 4 (Chosen plaintext attack), B = key, C = Ciphertext
+
+    * If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    * If A is 6 (Ciphertext only attack), B = Ciphertext
+
+    * The OUTPUT file will contain the results of all the test cases seperated
+    by newlines in the order given in the input file. The name of the output
+    file will be `output.txt`. Incase of invalid input, the output of that
+    particular testcase will be -1.
+    """
     input_file = open(DIR_PATH + "/input.txt", "r")
     output_file = open(DIR_PATH + "/output.txt", "w")
 

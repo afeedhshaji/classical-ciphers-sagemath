@@ -172,12 +172,19 @@ if __name__ == "__main__":
 
     * The INPUT file must be named `input.txt` and each line would be the test
     cases in the format :
-                                        A,B,C,D
-        - A is the integer denoting Encryption or Decryption. 1 is for
-         Encryption. 2 is for Decryption.
-        - B denotes the key1 used to encrypt/decrypt.
-        - C denotes the key2 used to encrypt/decrypt.
-        - D denotes the message to encrypt or decrypt.
+                                        A,B,C,D...
+
+    * If A is 1 (Encryption), B and C = key1 and key2, D = Plaintext
+
+    * If A is 2 (Decryption), B and C = key1 and key2 and D = Ciphertext
+
+    * If A is 3 (Chosen Ciphertext attack), B and C = key1 and key2, D = Ciphertext
+
+    * If A is 4 (Chosen plaintext attack), B and C = key1 and key2, D = Ciphertext
+
+    * If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    * If A is 6 (Ciphertext only attack), B = Ciphertext
 
     * The OUTPUT file will contain the results of all the test cases seperated
     by newlines in the order given in the input file. The name of the output

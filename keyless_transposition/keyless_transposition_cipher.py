@@ -94,18 +94,20 @@ if __name__ == "__main__":
     """
     Driver function
 
-
     Program Input/Output Specifications :
 
-    * The INPUT file must be named `input.txt` and each line would be the test cases in the format :
-                                        A,B,C
-        - A is the integer denoting Encryption or Decryption. 1 is for Encryption. 2 is for Decryption.
-        - B denotes the number of columns used for the column by column encryption.
-        - C denotes the message to encrypt or decrypt.
+    * The INPUT file must be named `input.txt` and each line would be the test
+    cases in the format :
+                                        A,B,C,D...
 
-    * The OUTPUT file will contain the results of all the test cases seperated by newlines in the order
-    given in the input file. The name of the output file will be `output.txt`. Incase of invalid input, the
-    output of that particular testcase will be -1.
+    * If A is 1 (Encryption), B = No: of cols and C = Plaintext
+
+    * If A is 2 (Decryption), B = No: of cols and C = Ciphertext
+
+    * The OUTPUT file will contain the results of all the test cases seperated
+    by newlines in the order given in the input file. The name of the output
+    file will be `output.txt`. Incase of invalid input, the output of that
+    particular testcase will be -1.
     """
     keyless_transp = KeylessTransposition()
 
