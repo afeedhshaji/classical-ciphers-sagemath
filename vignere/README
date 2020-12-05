@@ -1,0 +1,66 @@
+
+
+            Vigenère Cipher - Read Me
+
+
+*******************************************************
+*   Input Specification
+*******************************************************
+
+    The INPUT file must be named `input.txt` and each line would be the test
+    cases in the format :
+
+                        A,B,C,D...
+
+    - If A is 1 (Encryption), B = key and C = Plaintext
+
+    - If A is 2 (Decryption), B = key and C = Ciphertext
+
+    - If A is 3 (Chosen Ciphertext attack), B = key, C = Ciphertext
+
+    - If A is 4 (Chosen plaintext attack), B = key, C = Ciphertext
+
+    - If A is 5 (Known plaintext attack), B = Prev. Plaintext, C = Prev. Ciphertext, D = Ciphertext
+
+    - If A is 6 (Ciphertext only attack), B = Ciphertext
+
+*******************************************************
+*   Output Specification
+*******************************************************
+
+    The OUTPUT file will contain the results of all the
+    test cases seperated by newlines in the order given
+    in the input file. The name of the output file will
+    be `output.txt`. Incase of invalid input, the output
+    of that particular testcase will be -1.
+
+*******************************************************
+*   Sample Input and Output
+*******************************************************
+
+    ========================
+            Input 
+    ======================== 
+    
+    1,PASCAL,SHEISLISTENINGSHEISLISTENINGSHEISLISTENINGSHEISLISTENINGSHEISLISTENING
+    2,PASCAL,HHWKSWXSLGNTCG
+    3,PASCAL,HHWKSWXSLGNTCG
+    4,PASCAL,HHWKSWXSLGNTCG
+    5,SHEISLISTENING,HHWKSWXSLGNTCG,HHWKSWXSLGNTCG
+    6,HHWKSWXSLGNTCGKJETHLAUTPCIFISSTIKNIDIEFKNRHHWKSWXSLGNTCGKJETHLAUTPCIFI
+
+    ========================
+            Output 
+    ======================== 
+
+    HHWKSWXSLGNTCGKJETHLAUTPCIFISSTIKNIDIEFKNRHHWKSWXSLGNTCGKJETHLAUTPCIFI
+    SHEISLISTENING
+    SHEISLISTENING
+    SHEISLISTENING
+    SHEISLISTENING
+    SHEISLISTENINGSHEISLISTENINGSHEISLISTENINGSHEISLISTENINGSHEISLISTENING
+
+
+* For more details on the working of the algorithm, it has 
+  been included as doc strings in the python program.
+

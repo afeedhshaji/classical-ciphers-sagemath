@@ -1,0 +1,64 @@
+*******************************************************
+*  Name      :  Afeedh Shaji     
+*  Reg. No.  :  B170282CS            
+*  Course    :  CS4021D (NTC)      
+*  Assgn#    :  1               
+*******************************************************
+
+
+                    Read Me
+
+
+*******************************************************
+*  Problem description
+*******************************************************
+
+Implement the following algorithms using SageMath tool
+
+   - Affine cipher
+   - Hill cipher
+   - Shift cipher
+   - Substitution cipher
+   - Transposition cipher
+   - Vigenere cipher
+
+This should be followed by cryptanalysis of all the above
+classical cyphers algorithm from 1 - 6.
+
+*******************************************************
+*  Circumstances of programs
+*******************************************************
+
+    This program works and runs as intended.
+
+    Implemented the cipher techniques followed by the breaking
+    of the ciphers or cryptanalysis including Ciphertext only attack,
+    Chosen plaintext attack, Chosen ciphertext attack, Known plaintext
+    attack. 
+
+    The program was tested on :
+    Python 3.8.5
+    SageMath version 9.0
+
+
+*******************************************************
+*  How to build and run the program
+*******************************************************
+
+1. Install the dependancies:
+        pip install -r requirements.txt
+
+2. Each cipher is written as a script inside a folder with the
+   name of the package resembling the cipher technique.
+
+3. Run the sage script runner command inside the
+   appropriate cipher folder:
+   
+        sage <sage_script.sage>
+
+        E.g. sage affine_cipher.sage
+
+
+Note : There are some redundant code inside each folder (for inst
+. ngram_score.py). It is because I haven't found any way to import
+as modules in sage and I'm too lazy too find it now >.<

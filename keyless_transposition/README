@@ -1,0 +1,57 @@
+
+
+        Keyless Transposition Cipher - Read Me
+
+
+*******************************************************
+*   Input Specification
+*******************************************************
+
+    The INPUT file must be named `input.txt` and each line would be the test
+    cases in the format :
+
+                        A,B,C,D...
+
+    - If A is 1 (Encryption), B = key and C = Plaintext
+
+    - If A is 2 (Decryption), B = key and C = Ciphertext
+
+*******************************************************
+*   Output Specification
+*******************************************************
+
+    The OUTPUT file will contain the results of all the
+    test cases seperated by newlines in the order given
+    in the input file. The name of the output file will
+    be `output.txt`. Incase of invalid input, the output
+    of that particular testcase will be -1.
+
+*******************************************************
+*   Sample Input and Output
+*******************************************************
+
+    ========================
+            Input 
+    ======================== 
+    
+    1,4,MEETMEATTHEPARK
+    2,4,MMTAEEHREAEKTTP
+    3,4,MMTAEEHREAEKTTP
+    4,4,MMTAEEHREAEKTTP
+    5,MEETMEATTHEPARK,MMTAEEHREAEKTTP,MMTAEEHREAEKTTP
+    6,MMTAEEHREAEKTTP
+
+    ========================
+            Output 
+    ======================== 
+
+    MMTAEEHREAEKTTPZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+    MEETMEATTHEPARKZ
+
+* For more details on the working of the algorithm, it has 
+  been included as doc strings in the python program.
+
