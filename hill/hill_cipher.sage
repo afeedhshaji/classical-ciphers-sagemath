@@ -1,5 +1,5 @@
 from sage.all import Matrix, IntegerModRing
-from classical_ciphers.utils.ngram_score import ngram_score
+from ngram_score import ngram_score
 import os
 import numpy as np
 import math
@@ -8,7 +8,7 @@ import re
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CWD_PATH = os.getcwd()
 
-fitness = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
+fitness = ngram_score(DIR_PATH + "/quadgrams.txt")
 
 
 class HillCipher:
@@ -294,7 +294,6 @@ class Cryptanalysis:
                                 plain_text = HillCipher.decrypt(
                                     cipher_text, key
                                 )
-                                print(plain_text)
                                 return plain_text
         return plain_text
 

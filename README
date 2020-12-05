@@ -32,7 +32,9 @@ classical cyphers algorithm from 1 - 6.
     This program works and runs as intended.
 
     Implemented the cipher techniques followed by the breaking
-    of the ciphers or cryptanalysis.
+    of the ciphers or cryptanalysis including Ciphertext only attack,
+    Chosen plaintext attack, Chosen ciphertext attack, Known plaintext
+    attack. 
 
     The program was tested on :
     Python 3.8.5
@@ -46,13 +48,17 @@ classical cyphers algorithm from 1 - 6.
 1. Install the dependancies:
         pip install -r requirements.txt
 
-2. Each cipher is written as a module inside a package with the
+2. Each cipher is written as a script inside a folder with the
    name of the package resembling the cipher technique.
 
-3. Run the Python module runner command outside the
-   `classical_ciphers` folder:
+3. Run the sage script runner command inside the
+   appropriate cipher folder:
    
-        python3 -m classical_ciphers.<cipher_package_name>.<cipher_module_name>
+        sage <sage_script.sage>
 
-        E.g. python3 -m classical_ciphers.shift.shift_cipher
+        E.g. sage affine_cipher.sage
 
+
+Note : There are some redundant code inside each folder (for inst
+. ngram_score.py). It is because I haven't found any way to import
+as modules in sage and I'm too lazy too find it now >.<

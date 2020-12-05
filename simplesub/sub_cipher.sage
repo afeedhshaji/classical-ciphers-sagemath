@@ -1,6 +1,6 @@
 #!/usr/bin/env sage
 
-from classical_ciphers.utils.ngram_score import ngram_score
+from ngram_score import ngram_score
 import re
 import os
 import random
@@ -12,7 +12,7 @@ CWD_PATH = os.getcwd()
 MAXKEY = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
-fitness = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
+fitness = ngram_score(DIR_PATH + "/quadgrams.txt")
 
 
 class SubstitutionCipher:

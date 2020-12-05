@@ -1,6 +1,6 @@
 #!/usr/bin/env sage
 
-from classical_ciphers.utils.ngram_score import ngram_score
+from ngram_score import ngram_score
 import math
 import gmpy2
 import os
@@ -10,7 +10,7 @@ import re
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CWD_PATH = os.getcwd()
 
-fitness = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
+fitness = ngram_score(DIR_PATH + "/quadgrams.txt")
 
 
 class AffineCipher:
@@ -191,7 +191,6 @@ if __name__ == "__main__":
     file will be `output.txt`. Incase of invalid input, the output of that
     particular testcase will be -1.
     """
-    affine_cipher = AffineCipher()
 
     input_file = open(DIR_PATH + "/input.txt", "r")
     output_file = open(DIR_PATH + "/output.txt", "w")

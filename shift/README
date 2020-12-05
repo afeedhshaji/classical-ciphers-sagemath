@@ -60,6 +60,10 @@
     HELLO
     MYNAMEISJOHN
 
+*******************************************************
+*   Cryptanalysis Write-up
+*******************************************************
+
 
 * For more details on the working of the algorithm, it has 
   been included as doc strings in the python program.

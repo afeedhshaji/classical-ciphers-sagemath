@@ -1,7 +1,7 @@
 #!/usr/bin/env sage
 
-from classical_ciphers.utils.ngram_score import ngram_score
-from classical_ciphers.utils.helper import repeat, regex_repeat
+from ngram_score import ngram_score
+from helper import repeat
 import re
 import os
 from itertools import permutations
@@ -10,8 +10,8 @@ from itertools import permutations
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CWD_PATH = os.getcwd()
 
-qgram = ngram_score(CWD_PATH + "/classical_ciphers/utils/quadgrams.txt")
-trigram = ngram_score(CWD_PATH + "/classical_ciphers/utils/bigrams.txt")
+qgram = ngram_score(DIR_PATH + "/quadgrams.txt")
+trigram = ngram_score(DIR_PATH + "/trigrams.txt")
 
 
 class VignereCipher:
@@ -94,7 +94,6 @@ class Cryptanalysis:
             fullkey += chr(
                 (ord(chosen_cipher[i]) - ord(decr_chosen_cipher[i])) % 26 + 65
             )
-        print(fullkey)
         key = repeat(fullkey)
         return VignereCipher.decrypt(cipher_text, key)
 
@@ -108,7 +107,6 @@ class Cryptanalysis:
             fullkey += chr(
                 (ord(encr_chosen_plain[i]) - ord(chosen_plain[i])) % 26 + 65
             )
-        print(fullkey)
         key = repeat(fullkey)
         return VignereCipher.decrypt(cipher_text, key)
 
@@ -141,7 +139,7 @@ class Cryptanalysis:
             print("KLEN " + str(KLEN))
             scores = []
 
-            for i in permutations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 3):
+            for i in permutations("ABCDEFGHIJKLMNOPQRSTUVWXYZ", int(3)):
                 key = "".join(i) + "A" * (KLEN - len(i))
 
                 decrypted_seq = VignereCipher.decrypt(cipher_text, key)
