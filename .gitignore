@@ -1,6 +1,6 @@
 __pycache__
 .vscode
 *.zip
-*.py
+*.sage.py
 *.backup
 __init__.py
